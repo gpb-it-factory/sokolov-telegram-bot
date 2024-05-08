@@ -1,0 +1,19 @@
+name: Auto-review on PR (GPB IT Factory Backend 2024)
+on:
+  pull_request:
+    branches: [ "trunk" ]
+    types: [opened, reopened]
+
+jobs:
+  auto-assign:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - name: 'Auto-assign PR'
+        uses: pozil/auto-assign-issue@v1
+        with:
+          repo-token: ${{ secrets.READ_ORG_TOKEN }}
+          teams: team
+          numOfAssignee: 1
