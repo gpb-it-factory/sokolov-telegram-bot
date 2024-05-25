@@ -1,13 +1,15 @@
-# Мини-банк
+# Мини-банк (Frontend service)
 
-Проект "Мини-банк" — middle-сервис, разрабатываемый в рамках обучения GPB IT Factory.
+Проект "Мини-банк" — сервис, разрабатываемый в рамках обучения GPB IT Factory.
 
-## Архитектура
+В этом репозитории frontend-часть: telegram-бот, принимающий запросы от пользователя и формирующий запросы к MiddleService.
+
+## Общая архитектура проекта
 
 Приложение состоит из компонентов:
-- Frontend. Telegram-бот как килентское приложение;
-- Middle. "Мини-банк" - микро-сервис на Java Spring Boot, маршрутизирующий запросы в "Банк";
-- Backend. "Банк" - глубинная система, выступающая в качестве автоматизированной банковской системы. 
+- Frontend telegram-бот. Выступает как килентское приложение — **текущий проект**;
+- Middle-сервис. "Мини-банк" - микро-сервис на Java Spring Boot, маршрутизирующий запросы в "Банк";
+- Backend-сервис. "Банк" - глубинная система, выступающая в качестве автоматизированной банковской системы. 
 
 ## Диаграмма взаимодействия
 
@@ -16,22 +18,22 @@ UML-диаграмма последовательности, пример вза
 ```plantuml
 actor User
 
-participant FrontTelegram
+participant TelegramBot
 participant MiddleService
 participant BackendSystem
 
-User -> FrontTelegram : Запрос
-activate FrontTelegram
-    FrontTelegram -> MiddleService : HTTP-запрос
+User -> TelegramBot : HTTP-запрос
+activate TelegramBot
+    TelegramBot -> MiddleService : HTTP-запрос
     activate MiddleService
         MiddleService -> BackendSystem : HTTP-запрос
         activate BackendSystem
             BackendSystem -> MiddleService : HTTP-ответ
         deactivate BackendSystem
-        MiddleService -> FrontTelegram : HTTP-ответ
+        MiddleService -> TelegramBot : HTTP-ответ
     deactivate MiddleService
-    FrontTelegram -> User : Ответ
-deactivate FrontTelegram
+    TelegramBot -> User : HTTP-ответ
+deactivate TelegramBot
 ```
 
 ## Запуск и пример использования
